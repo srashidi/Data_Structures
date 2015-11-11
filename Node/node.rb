@@ -17,8 +17,13 @@ class Node
     end
   end
 
-  def child_assign(child_value)
-
+  def child_assign(child)
+    if child.value < @value
+      @left_child = child
+    else
+      @right_child = child
+    end
   end
 
 end
+
