@@ -5,21 +5,20 @@ class Node
 
   def initialize(value)
     @value = value
-    @parent = parent
   end
 
   def child_assign(child)
     if child.value < @value
-      if @left_child.empty?
+      if @left_child.nil?
         @left_child = child
-        child.parent = @parent
+        child.parent = self   #questionable
       else
         @left_child.child_assign(child)
       end
     else
-      if @right_child.empty?
+      if @right_child.nil?
         @right_child = child
-        child.parent = @parent
+        child.parent = self   #questionable
       else
         @right_child.child_assign(child)
       end
@@ -27,7 +26,7 @@ class Node
   end
 
   def go_to_parent
-    unless @parent.empty?
+    unless @parent.nil?
       @parent
     else
       puts "Error: No parent for this node!"
@@ -37,13 +36,13 @@ class Node
   def go_to_child(direction)
     direction = direction.strip.downcase
     if direction == "left"
-      unless @left_child.empty?
+      unless @left_child.nil?
         @left_child
       else
         puts "Error: No left child for this node!"
       end
     elsif direction == "right"
-      unless @right_child.empty?
+      unless @right_child.nil?
         @right_child
       else
         puts "Error: No right child for this node!"
@@ -65,7 +64,7 @@ def build_tree(array)
     parent.child_assign(child)
   end
   parent
-  #if child == parent.right_child && parent.left_child.empty?
+  #if child == parent.right_child && parent.left_child.nil?
   #  if array.first <= parent.value
   #    child = Node.new(array.first)
   #    array.delete_at(0)
@@ -79,7 +78,7 @@ def build_tree(array)
   #  child = Node.new(array.first)
   #  array.delete_at(0)
   #  parent.child_assign(child)
-  #elsif child == parent.left_child && parent.right_child.empty?
+  #elsif child == parent.left_child && parent.right_child.nil?
   #  if array.first >= parent.value
   #    child = Node.new(array.first)
   #    array.delete_at(0)
@@ -92,3 +91,5 @@ def build_tree(array)
   #  end
   #end      
 end
+
+build_tree([1,4,6,7,2,4,9,11])
