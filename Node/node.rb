@@ -57,11 +57,11 @@ end
 
 def build_tree(array)
   n = array.size
-  parent = Node.new(array.first)
-  array.delete_at(0)
+  parent = Node.new(array[n/2])
+  array.delete_at(n/2)
   until n == 0
-    child = Node.new(array.first)
-    array.delete_at(0)
+    child = Node.new(array[n/2])
+    array.delete_at(n/2)
     parent.child_assign(child)
   end
   parent
