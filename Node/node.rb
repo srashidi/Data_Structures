@@ -11,14 +11,14 @@ class Node
     if child.value < @value
       if @left_child.nil?
         @left_child = child
-        child.parent = self   #questionable
+        @left_child.parent = self   #questionable
       else
         @left_child.child_assign(child)
       end
     else
       if @right_child.nil?
         @right_child = child
-        child.parent = self   #questionable
+        @right_child.parent = self   #questionable
       else
         @right_child.child_assign(child)
       end
@@ -58,38 +58,13 @@ def build_tree(array)
   n = array.size
   parent = Node.new(array[n/2])
   array.delete_at(n/2)
-  until n == 0
+  until array.size == 0
+    n = array.size
     child = Node.new(array[n/2])
     array.delete_at(n/2)
     parent.child_assign(child)
   end
   parent
-  #if child == parent.right_child && parent.left_child.nil?
-  #  if array.first <= parent.value
-  #    child = Node.new(array.first)
-  #    array.delete_at(0)
-  #    parent.child_assign(child)
-  #  else
-  #    parent = child
-  #    child = Node.new(array.first)
-  #    array.delete_at(0)
-  #    parent.child_assign(child)
-  #  end
-  #  child = Node.new(array.first)
-  #  array.delete_at(0)
-  #  parent.child_assign(child)
-  #elsif child == parent.left_child && parent.right_child.nil?
-  #  if array.first >= parent.value
-  #    child = Node.new(array.first)
-  #    array.delete_at(0)
-  #    parent.child_assign(child)
-  #  else
-  #    parent = child
-  #    child = Node.new(array.first)
-  #    array.delete_at(0)
-  #    parent.child_assign(child)
-  #  end
-  #end      
 end
 
-build_tree([1,4,6,7,2,4,9,11])
+puts build_tree([1,4,6,7,2,4,9,11]).inspect
