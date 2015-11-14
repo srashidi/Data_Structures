@@ -101,21 +101,19 @@ class Node
     return parent if parent.value == target_value
     tested << parent
     until search_stack.empty?
-      begin
-        if search_stack[-1].left_child && tested.include?(search_stack[-1].left_child) == false
-          search_stack << search_stack[-1].left_child
-          return search_stack[-1] if search_stack[-1].value == target_value
-          tested << search_stack[-1]
-        end
-      end while search_stack[-1].left_child && tested.include?(search_stack[-1].left_child) == false
+      while search_stack[-1].left_child && tested.include?(search_stack[-1].left_child) == false
+        search_stack << search_stack[-1].left_child
+        return search_stack[-1] if search_stack[-1].value == target_value
+        tested << search_stack[-1]
+      end
       unless search_stack[-1].right_child
-        until (search_stack.empty? || (search_stack[-1].right_child && tested.include?(search_stack[-1].left_child) == false))
+        until (search_stack.empty? || (search_stack[-1].right_child && tested.include?(search_stack[-1].right_child) == false))
           search_stack.pop
         end
       end
       if search_stack.empty?
         nil
-      elsif search_stack[-1].right_child && tested.include?(search_stack[-1].left_child) == false
+      elsif search_stack[-1].right_child && tested.include?(search_stack[-1].right_child) == false
         search_stack << search_stack[-1].right_child
         return search_stack[-1] if search_stack[-1].value == target_value
         tested << search_stack[-1]
@@ -148,6 +146,6 @@ puts tree.breadth_first_search(11)
 puts "\n"
 puts tree.breadth_first_search(12).inspect
 puts "\n"
-puts tree.depth_first_search(7).inspect
+puts tree.depth_first_search(11)
 puts "\n"
 puts tree.depth_first_search(12).inspect
