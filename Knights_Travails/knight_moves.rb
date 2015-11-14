@@ -70,28 +70,25 @@ end
 def knight_moves(starting_position,ending_position)
   return "You didn't need to move at all!" if starting_position == ending_position
   search_queue = []
-  moves_array = []
-  moves_array << starting_position
+  moves_array = [starting_position]
   knight = Knight.new(starting_position)
-  number_of_moves = 1
   possible_moves = knight.next_possible_moves
   if possible_moves.include?(ending_position)
     moves_array << ending_position
+    number_of_moves = moves_array.size - 1
   else
     possible_moves.each do |position|
       search_queue << [position]
     end
-    number_of_moves += 1
-    index = 0
   end
   until moves_array[-1] == ending_position
     next_moves = search_queue.shift
     knight.position = next_moves[-1]
     possible_moves = knight.next_possible_moves
     if possible_moves.include?(ending_position)
-      next_moves.each do |move|
-        moves_array << move
-      end
+      next_moves.each { |move| moves_array << move }
+      moves_array << ending_position
+      number_of_moves = moves_array.size - 1
     else
       possible_moves.each do |position|
         next_moves << position
@@ -99,14 +96,13 @@ def knight_moves(starting_position,ending_position)
         next_moves.pop
       end
     end
-    index += 1
-    if index == 8**(number_of_moves-1)
-      number_of_moves += 1
-      index = 0
-    end
   end
-  puts "You made it in #{number_of_moves} moves! Here's your path:"
-  puts moves_array
+  if number_of_moves == 1
+    puts "You made it in #{number_of_moves} move! Here's your path:"
+  else
+    puts "You made it in #{number_of_moves} moves! Here's your path:"
+  end
+  moves_array.each { |position| puts position.inspect }
 end
 
 knight_moves([0,0],[5,4])
