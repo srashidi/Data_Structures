@@ -3,10 +3,12 @@ class Node
   attr_reader :value
   attr_accessor :parent, :right_child, :left_child
 
+  # Initializes an instance of Node with a given value
   def initialize(value)
     @value = value
   end
 
+  # Assigns a given child Node to an instance of Node
   def child_assign(child)
     if child.value < @value
       if @left_child.nil?
@@ -25,6 +27,7 @@ class Node
     end
   end
 
+  # Allows to navigate to the parent of an instance of Node
   def go_to_parent
     unless @parent.nil?
       @parent
@@ -33,6 +36,7 @@ class Node
     end
   end
 
+  # Allows to navigate to the child of an instance of Node given the direction
   def go_to_child(direction)
     direction = direction.strip.downcase
     if direction == "left"
@@ -54,6 +58,7 @@ class Node
     end
   end
 
+  # Allows for a breadth-first search of a given value in a binary Node tree
   def breadth_first_search(target_value)
     search_queue = []
     parent = self
@@ -93,6 +98,7 @@ class Node
     nil
   end
 
+  # Allows for a depth-first search of a given value in a binary Node tree
   def depth_first_search(target_value)
     search_stack = []
     tested = []
@@ -123,6 +129,7 @@ class Node
 
 end
 
+# Builds a tree of interrelated Node objects given an array of values
 def build_tree(array)
   n = array.size
   parent = Node.new(array[n/2])
@@ -136,16 +143,22 @@ def build_tree(array)
   parent
 end
 
+# Displays a given tree
 def display_tree(tree_parent) # Need to work on this
 end
 
+# Build a tree from an array of values
 tree = build_tree([1,4,6,7,2,4,9,11])
 puts tree.inspect
 puts "\n"
+# Test breadth_first_search (should yield a result)
 puts tree.breadth_first_search(11)
 puts "\n"
+# Test breadth_first_search (should yield nil)
 puts tree.breadth_first_search(12).inspect
 puts "\n"
+# Test depth_first_search (should yield a result)
 puts tree.depth_first_search(11)
 puts "\n"
+# Test depth_first_search (should yield nil)
 puts tree.depth_first_search(12).inspect
