@@ -54,6 +54,75 @@ class Node
     end
   end
 
+  def breadth_first_search(target_value)
+    search_queue = []
+    parent = self
+    return parent if parent.value == target_value
+    if parent.left_child
+      if parent.left_child == target_value
+        return parent.left_child
+      else
+        search_queue << parent.left_child
+      end
+    end
+    if parent.right_child
+      if parent.right_child == target_value
+        return parent.right_child
+      else
+        search_queue << parent.right_child
+      end
+    end
+    until search_queue.size == 0
+      parent = search_queue.shift
+      return parent if parent.value == target_value
+      if parent.left_child
+        if parent.left_child == target_value
+          return parent.left_child
+        else
+          search_queue << parent.left_child
+        end
+      end
+      if parent.right_child
+        if parent.right_child == target_value
+          return parent.right_child
+        else
+          search_queue << parent.right_child
+        end
+      end
+    end
+    nil
+  end
+
+  def depth_first_search(target_value)
+    search_stack = []
+    tested = []
+    parent = self
+    search_stack << parent
+    return parent if parent.value == target_value
+    tested << parent
+    until search_stack.empty?
+      begin
+        if search_stack[-1].left_child && tested.include?(search_stack[-1].left_child) == false
+          search_stack << search_stack[-1].left_child
+          return search_stack[-1] if search_stack[-1].value == target_value
+          tested << search_stack[-1]
+        end
+      end while search_stack[-1].left_child && tested.include?(search_stack[-1].left_child) == false
+      unless search_stack[-1].right_child
+        until (search_stack.empty? || (search_stack[-1].right_child && tested.include?(search_stack[-1].left_child) == false))
+          search_stack.pop
+        end
+      end
+      if search_stack.empty?
+        nil
+      elsif search_stack[-1].right_child && tested.include?(search_stack[-1].left_child) == false
+        search_stack << search_stack[-1].right_child
+        return search_stack[-1] if search_stack[-1].value == target_value
+        tested << search_stack[-1]
+      end
+    end
+  end
+
 end
 
 def build_tree(array)
@@ -72,48 +141,13 @@ end
 def display_tree(tree_parent) # Need to work on this
 end
 
-def breadth_first_search(parent_node,target_value)
-  search_array = []
-  parent = parent_node
-  return parent if parent.value == target_value
-  if parent.left_child
-    if parent.left_child == target_value
-      return parent.left_child
-    else
-      search_array << parent.left_child
-    end
-  end
-  if parent.right_child
-    if parent.right_child == target_value
-      return parent.right_child
-    else
-      search_array << parent.right_child
-    end
-  end
-  until search_array.size == 0
-    parent = search_array.shift
-    return parent if parent.value == target_value
-    if parent.left_child
-      if parent.left_child == target_value
-        return parent.left_child
-      else
-        search_array << parent.left_child
-      end
-    end
-    if parent.right_child
-      if parent.right_child == target_value
-        return parent.right_child
-      else
-        search_array << parent.right_child
-      end
-    end
-  end
-  nil
-end
-
 tree = build_tree([1,4,6,7,2,4,9,11])
 puts tree.inspect
 puts "\n"
-puts breadth_first_search(tree,11)
+puts tree.breadth_first_search(11)
 puts "\n"
-puts breadth_first_search(tree,12).inspect
+puts tree.breadth_first_search(12).inspect
+puts "\n"
+puts tree.depth_first_search(7).inspect
+puts "\n"
+puts tree.depth_first_search(12).inspect
