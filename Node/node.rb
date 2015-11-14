@@ -143,6 +143,14 @@ def build_tree(array)
   parent
 end
 
+# A recursive method that performs a depth-first search for a given value
+# in a given tree
+def dfs_rec(node,target_value)
+  return node if node.value == target_value
+  dfs_rec(node.left_child,target_value) if node.left_child
+  dfs_rec(node.right_child,target_value) if node.right_child
+end
+
 # Displays a given tree
 def display_tree(tree_parent) # Need to work on this
 end
@@ -162,3 +170,10 @@ puts tree.depth_first_search(11)
 puts "\n"
 # Test depth_first_search (should yield nil)
 puts tree.depth_first_search(12).inspect
+puts "\n"
+# Test recursive depth_first_search (should yield a result)
+puts dfs_rec(tree,11)
+puts "\n"
+# Test recursive depth_first_search (should yield nil)
+puts dfs_rec(tree,12).inspect
+puts "\n"
