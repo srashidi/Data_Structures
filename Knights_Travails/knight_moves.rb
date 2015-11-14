@@ -49,8 +49,8 @@ class GameBoard
   attr_reader :array
 
   # Creates a new 8x8 gameboard, starting at [0,0],
-  # [0,1], [0,2]... all the way up to ...[7,5],
-  # [7,6], [7,7]
+  # [0,1], [0,2]... all the way up to
+  # ...[7,5], [7,6], [7,7]
   def initialize
     @array = []
     x,y = 0,0
@@ -67,8 +67,11 @@ class GameBoard
 
 end
 
+# Given starting and ending positions, ascertains fewest
+# moves needed to go from start to end and returns the
+# number of moves and the squares along the path
 def knight_moves(starting_position,ending_position)
-  return "You didn't need to move at all!" if starting_position == ending_position
+  return puts "You didn't need to move at all!" if starting_position == ending_position
   search_queue = []
   moves_array = [starting_position]
   knight = Knight.new(starting_position)
@@ -87,13 +90,12 @@ def knight_moves(starting_position,ending_position)
     possible_moves = knight.next_possible_moves
     if possible_moves.include?(ending_position)
       next_moves.each { |move| moves_array << move }
+      number_of_moves = moves_array.size
       moves_array << ending_position
-      number_of_moves = moves_array.size - 1
     else
       possible_moves.each do |position|
-        next_moves << position
-        search_queue << next_moves
-        next_moves.pop
+        possibility = next_moves + [position]
+        search_queue << possibility
       end
     end
   end
@@ -105,4 +107,5 @@ def knight_moves(starting_position,ending_position)
   moves_array.each { |position| puts position.inspect }
 end
 
-knight_moves([0,0],[5,4])
+# Call knights_move method from [0,0] to [6,7]
+knight_moves([0,0],[6,7])
